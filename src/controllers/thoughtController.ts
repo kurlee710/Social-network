@@ -11,3 +11,13 @@ export const getThoughts = async (_: Request, res: Response) => {
     res.status(500).json(err);
   }
 };
+
+// Get a single thought by ID
+export const getThoughtById = async (req: Request, res: Response) => {
+  try {
+    const thought = await Thought.findById(req.params.thoughtId);
+    res.json(thought);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+};
