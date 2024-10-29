@@ -48,3 +48,13 @@ export const updateThought = async (req: Request, res: Response) => {
     res.status(500).json(err);
   }
 };
+
+// Delete a thought by ID
+export const deleteThought = async (req: Request, res: Response) => {
+  try {
+    await Thought.findByIdAndDelete(req.params.thoughtId);
+    res.json({ message: "Thought deleted!" });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+};
