@@ -21,3 +21,16 @@ export const getThoughtById = async (req: Request, res: Response) => {
     res.status(500).json(err);
   }
 };
+
+// Create a new thought
+export const createThought = async (req: Request, res: Response) => {
+  try {
+    const thought = await Thought.create(req.body);
+    await User.findByIdAndUpdate(req.body.userId, {
+      $push: { thoughts: thought._id },
+    });
+    res.json(thought);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+};
