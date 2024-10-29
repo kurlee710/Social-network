@@ -45,3 +45,14 @@ export const updateUser = async (req: Request, res: Response) => {
     res.status(500).json(err);
   }
 };
+
+// Delete a user and their thoughts
+export const deleteUser = async (req: Request, res: Response) => {
+  try {
+    const user = await User.findByIdAndDelete(req.params.userId);
+    await Thought.deleteMany({ _id: { $in: user?.thoughts } });
+    res.json({ message: "User and associated thoughts deleted!" });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+};
