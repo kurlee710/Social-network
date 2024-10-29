@@ -58,3 +58,31 @@ export const deleteThought = async (req: Request, res: Response) => {
     res.status(500).json(err);
   }
 };
+
+// Add a reaction to a thought
+export const addReaction = async (req: Request, res: Response) => {
+  try {
+    const thought = await Thought.findByIdAndUpdate(
+      { _id: req.params.thoughtId },
+      { $addToSet: { reactions: req.body } },
+      { runValidators: true, new: true }
+    );
+    res.json(thought);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+};
+
+// Remove a reaction from a thought
+export const removeReaction = async (req: Request, res: Response) => {
+  try {
+    const thought = await Thought.findByIdAndUpdate(
+      { _id: req.params.thoughtId },
+      { $pull: { reactions: { reactionId: req.params.reactionId } } },
+      { runValidators: true, new: true }
+    );
+    res.json(thought);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+};
