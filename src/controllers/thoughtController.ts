@@ -34,3 +34,17 @@ export const createThought = async (req: Request, res: Response) => {
     res.status(500).json(err);
   }
 };
+
+// Update a thought by ID
+export const updateThought = async (req: Request, res: Response) => {
+  try {
+    const thought = await Thought.findByIdAndUpdate(
+      req.params.thoughtId,
+      req.body,
+      { new: true }
+    );
+    res.json(thought);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+};
