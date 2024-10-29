@@ -56,3 +56,31 @@ export const deleteUser = async (req: Request, res: Response) => {
     res.status(500).json(err);
   }
 };
+
+// Add a friend
+export const addFriend = async (req: Request, res: Response) => {
+  try {
+    const user = await User.findByIdAndUpdate(
+      req.params.userId,
+      { $push: { friends: req.params.friendId } },
+      { new: true }
+    );
+    res.json(user);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+};
+
+// Remove a friend
+export const removeFriend = async (req: Request, res: Response) => {
+  try {
+    const user = await User.findByIdAndUpdate(
+      req.params.userId,
+      { $pull: { friends: req.params.friendId } },
+      { new: true }
+    );
+    res.json(user);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+};
